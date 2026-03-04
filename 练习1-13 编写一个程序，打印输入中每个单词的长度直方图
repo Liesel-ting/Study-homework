@@ -1,0 +1,81 @@
+// 练习1-13 编写一个程序，打印输入中每个单词的长度直方图
+#include <stdio.h>
+
+#define MAXWORD 11   //单词的最大长度
+#define MAXHIST 15  //直方图的最大高度
+#define IN 1      
+#define OUT 0    
+
+int main( ){
+    int  c, i, nc, state ;      //当前字符，循环变量，当前单词长度，状态变量
+    int len;                      //当前单词长度
+    int maxvalue;                 //最大单词长度
+    int ovflow;                   //溢出计数器
+    int wl[MAXWORD];              //单词长度计数器数组
+
+    state = OUT;                        
+    nc = 0 ;
+    ovflow = 0;
+    for (i = 0; i < MAXWORD; ++i)
+        wl[i] = 0;                    //初始化
+
+    while ((c = getchar()) != EOF){
+        if (c == ' ' || c == '\n' || c == '\t'){     //遇到空白符
+           state = OUT;   //在单词外
+           if (nc > 0) {    //一个单词结束
+                if (nc < MAXWORD)  
+                     ++wl[nc];      // 单词长度计数器数组对应位置加1
+                else
+                     ++ovflow;      //溢出计数器加1
+                nc = 0;             //单词长度清零
+              }
+
+        }else if (state == OUT){
+            state = IN;  //在单词内
+            nc = 1;         //开始计数
+
+        }else{
+            ++nc; 
+        }      //继续计数
+    }
+
+     // 处理最后一个单词（如果文件以单词结束而不是空白符）
+    if (nc > 0) {
+        if (nc < MAXWORD)
+            ++wl[nc];
+        else
+            ++ovflow;
+    }   
+
+    maxvalue = 0;  
+    for (i = 1; i < MAXWORD; ++i){
+        if (wl[i] > maxvalue)
+            maxvalue = wl[i];     //找出最大单词长度计数
+    }
+
+        //打印直方图
+    for (i = 1; i < MAXWORD; ++i) {
+        printf("%5d - %5d:", i, wl[i]);         //打印单词长度及其对应的计数值
+        if (wl[i] > 0) {
+            // 计算星号数量，确保至少显示1个星号
+            if (maxvalue > 0) {
+                len = wl[i] * MAXHIST / maxvalue;
+                if (len <= 0) 
+                    len = 1;
+            } else {
+                len = 1;
+            }
+        } else {
+            len = 0;
+        }
+
+        while (len > 0){
+            putchar('*');
+            --len;
+        }
+        putchar('\n');
+    }
+    if (ovflow > 0)
+        printf("There are %d words >= %d\n", ovflow, MAXWORD);
+    return 0;
+}
