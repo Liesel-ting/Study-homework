@@ -1,0 +1,25 @@
+//练习1-6 验证表达式 getchar() != EOF 的值是1还是0
+#include <stdio.h>
+main()
+{
+    int c;
+
+     while (c = getchar() != EOF)
+        printf("%d\n", c);
+        
+     printf("%d - at EOF\n", c);
+
+}
+
+
+
+// //练习1-7 编写一个打印EOF值的程序
+#include <stdio.h>
+main()
+{
+    int c;
+
+    c = EOF;
+    printf("%d\n", c);
+
+}
