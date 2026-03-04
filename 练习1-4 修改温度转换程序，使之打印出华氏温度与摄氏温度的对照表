@@ -1,0 +1,22 @@
+//练习1-4 修改温度转换程序，使之打印出华氏温度与摄氏温度的对照表
+#include <stdio.h>
+main()
+{
+    float fahr, celsius;
+    int lower,upper,step;
+
+    lower = 0;     //温度的上限
+    upper = 300;   //温度的下限
+    step = 20;     //步长
+
+    printf("Celsius Fahrenheit\n");
+    celsius = lower;
+    while (celsius <= upper){
+        //fahr = (((9.0/5.0) * celsius) + 32.0);
+        fahr = (9.0* celsius)/5.0 + 32.0;
+        printf("%3.0f %6.1f\n", celsius, fahr );
+        celsius = celsius + step;
+
+    }
+
+}
